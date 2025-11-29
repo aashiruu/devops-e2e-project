@@ -1,0 +1,35 @@
+name: Build and Push Docker Images
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # LOGIN TO GHCR
+      - name: Log in to GHCR
+        run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u "${{ secrets.GHCR_USERNAME }}" --password-stdin
+
+      # BUILD FRONTEND IMAGE
+      - name: Build frontend image
+        run: |
+          docker build -t ghcr.io/${{ secrets.GHCR_USERNAME }}/devops-frontend:latest ./frontend
+
+      # BUILD BACKEND IMAGE
+      - name: Build backend image
+        run: |
+          docker build -t ghcr.io/${{ secrets.GHCR_USERNAME }}/devops-backend:latest ./backend
+
+      # PUSH IMAGES
+      - name: Push frontend
+        run: docker push ghcr.io/${{ secrets.GHCR_USERNAME }}/devops-frontend:latest
+
+      - name: Push backend
+        run: docker push ghcr.io/${{ secrets.GHCR_USERNAME }}/devops-backend:latest
