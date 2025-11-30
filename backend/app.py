@@ -2,7 +2,7 @@ from flask import Flask, jsonify
 
 app = Flask(__name__)
 
-@app.route("/ping")
+@app.route("/api/ping")
 def ping():
     return jsonify({"message": "Backend API is alive!"})
 
