@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: backend
-        image: ghcr.io/aashiruu/devops-backend:latest
+        image: docker.io/famouswealth/devops-backend:latest
         ports:
         - containerPort: 5000
